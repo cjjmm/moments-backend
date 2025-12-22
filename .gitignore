@@ -1,0 +1,44 @@
+# 项目依赖下载说明
+
+本项目首次运行时，Maven 会自动下载所需依赖。
+
+## .gitignore 配置
+
+以下文件和目录不应提交到版本控制系统：
+
+### Maven 相关
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IDE 相关
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+
+### 日志文件
+*.log
+logs/
+
+### 临时文件
+*.tmp
+*.bak
+*.swp
+*~
+
+### 系统文件
+.DS_Store
+Thumbs.db
+
+### 应用配置（包含敏感信息）
+application-prod.yml
+application-dev.yml
+
+### 上传文件目录
+/uploads/
