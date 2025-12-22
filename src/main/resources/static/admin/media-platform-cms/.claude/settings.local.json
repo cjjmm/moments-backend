@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Force -Name)",
+      "mcp__filesystem__read_multiple_files",
+      "Bash(npm install:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npx msw:*)",
+      "Bash(rm:*)"
+    ]
+  }
+}
