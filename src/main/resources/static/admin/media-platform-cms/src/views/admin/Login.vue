@@ -80,7 +80,7 @@ const handleLogin = async () => {
         if (success) {
           // 检查是否是管理员
           if (authStore.isAdmin()) {
-            router.push('/admin')
+            router.push('/dashboard')
           } else {
             ElMessage.warning('您不是管理员,无法访问后台')
             authStore.logout()

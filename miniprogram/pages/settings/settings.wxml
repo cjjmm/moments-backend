@@ -1,0 +1,54 @@
+<!--pages/settings/settings.wxml-->
+<view class="container">
+  <view class="section">
+    <view class="section-title">修改密码</view>
+    
+    <view class="form-group">
+      <view class="input-label">当前密码</view>
+      <input 
+        class="form-input"
+        type="password"
+        placeholder="请输入当前密码"
+        value="{{oldPassword}}"
+        bindinput="onOldPasswordInput"
+      />
+    </view>
+    
+    <view class="form-group">
+      <view class="input-label">新密码</view>
+      <input 
+        class="form-input"
+        type="password"
+        placeholder="请输入新密码（至少6位）"
+        value="{{newPassword}}"
+        bindinput="onNewPasswordInput"
+      />
+    </view>
+    
+    <view class="form-group">
+      <view class="input-label">确认新密码</view>
+      <input 
+        class="form-input"
+        type="password"
+        placeholder="请再次输入新密码"
+        value="{{confirmPassword}}"
+        bindinput="onConfirmPasswordInput"
+      />
+    </view>
+    
+    <button 
+      class="submit-btn"
+      bindtap="handleChangePassword"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+    >
+      确认修改
+    </button>
+  </view>
+  
+  <view class="tips">
+    <view class="tip-item">• 密码至少6个字符</view>
+    <view class="tip-item">• 建议使用字母和数字组合</view>
+    <view class="tip-item">• 修改成功后需要重新登录</view>
+  </view>
+</view>

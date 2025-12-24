@@ -1,0 +1,49 @@
+<!-- components/CommentSection/CommentSection.wxml -->
+<view class="comment-section">
+  <!-- 评论列表 -->
+  <view class="comment-list">
+    <view 
+      wx:for="{{comments}}" 
+      wx:key="commentId" 
+      class="comment-item"
+    >
+      <image src="{{item.avatar}}" class="avatar"></image>
+      <view class="comment-content">
+        <view class="user-info">
+          <text class="nickname">{{item.nickname}}</text>
+          <text class="time">{{formatTime(item.createTime)}}</text>
+        </view>
+        <view class="content">{{item.content}}</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加载更多 -->
+  <view 
+    wx:if="{{hasMore}}" 
+    class="load-more" 
+    bindtap="loadMoreComments"
+  >
+    <text>加载更多评论</text>
+  </view>
+  
+  <!-- 评论输入框 -->
+  <view class="comment-input-container">
+    <input 
+      value="{{newComment}}"
+      placeholder="写评论..."
+      class="comment-input"
+      bindinput="onInput"
+      confirm-type="send"
+      bindconfirm="submitComment"
+      disabled="{{isSubmitting}}"
+    />
+    <button 
+      class="submit-btn" 
+      bindtap="submitComment"
+      disabled="{{!newComment.trim() || isSubmitting}}"
+    >
+      {{isSubmitting ? '发送中...' : '发送'}}
+    </button>
+  </view>
+</view>

@@ -1,48 +1,105 @@
-<!-- pages/index/index.wxml -->
+<!-- index/index.wxml -->
+<!-- 对接 Spring Boot 后端的首页模板 -->
 <view class="container">
   <!-- 分类导航栏 -->
   <view class="category-nav">
     <view 
-      class="category-item {{currentCategory === 'image' ? 'active' : ''}}"
-      data-category="image"
+      wx:for="{{categories}}" 
+      wx:key="key"
+      class="category-item {{currentCategory === item.key ? 'active' : ''}}"
+      data-category="{{item.key}}"
       bindtap="switchCategory"
     >
-      <text>图片</text>
-    </view>
-    <view 
-      class="category-item {{currentCategory === 'video' ? 'active' : ''}}"
-      data-category="video"
-      bindtap="switchCategory"
-    >
-      <text>视频</text>
+      <text>{{item.name}}</text>
     </view>
   </view>
   
-  <!-- 媒体列表 -->
-  <view class="media-list">
-    <block wx:for="{{mediaList}}" wx:key="id">
-      <view class="media-item">
+  <!-- 帖子列表 -->
+  <view class="post-list">
+    <block wx:for="{{postList}}" wx:key="postId">
+      <view class="post-item">
+        <!-- 用户信息 -->
+        <view class="post-header">
+          <image class="avatar" src="{{item.avatar || '/assets/default-avatar.png'}}" mode="aspectFill"></image>
+          <view class="user-info">
+            <text class="nickname">{{item.nickname || item.username}}</text>
+            <text class="time">{{item.createTime}}</text>
+          </view>
+        </view>
+        
+        <!-- 帖子内容 -->
+        <view class="post-content">
+          <text class="content-text">{{item.content}}</text>
+        </view>
+        
         <!-- 媒体内容 -->
-        <block wx:if="{{item.type === 'image'}}">
-          <image class="media-image" src="{{item.url}}" mode="widthFix"></image>
-        </block>
-        <block wx:elif="{{item.type === 'video'}}">
-          <video 
-            class="media-video"
-            src="{{item.url}}" 
-            controls 
-            show-play-btn 
-            show-center-play-btn
-            enable-progress-gesture
-            object-fit="contain"
-          ></video>
-        </block>
+        <view class="media-container" wx:if="{{item.mediaUrls && item.mediaUrls.length > 0}}">
+          <!-- 图片类型 -->
+          <block wx:if="{{item.mediaType === 'IMAGE'}}">
+            <view class="image-grid image-count-{{item.mediaUrls.length > 9 ? 9 : item.mediaUrls.length}}">
+              <block wx:for="{{item.mediaUrls}}" wx:for-item="url" wx:for-index="idx" wx:key="idx">
+                <image 
+                  wx:if="{{idx < 9}}"
+                  class="media-image" 
+                  src="{{url}}" 
+                  mode="aspectFill"
+                  data-urls="{{item.mediaUrls}}"
+                  data-current="{{url}}"
+                  bindtap="previewImage"
+                ></image>
+              </block>
+            </view>
+          </block>
+          
+          <!-- 视频类型 -->
+          <block wx:elif="{{item.mediaType === 'VIDEO'}}">
+            <video 
+              class="media-video"
+              src="{{item.mediaUrls[0]}}" 
+              controls 
+              show-play-btn 
+              show-center-play-btn
+              object-fit="contain"
+            ></video>
+          </block>
+        </view>
+        
+        <!-- 标签 -->
+        <view class="tags" wx:if="{{item.tags && item.tags.length > 0}}">
+          <text class="tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">#{{tag}}</text>
+        </view>
+        
+        <!-- 互动栏 -->
+        <view class="post-footer">
+          <view class="stat-item">
+            <text class="stat-icon">👍</text>
+            <text class="stat-count">{{item.likeCount || 0}}</text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-icon">💬</text>
+            <text class="stat-count">{{item.commentCount || 0}}</text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-icon">⭐</text>
+            <text class="stat-count">{{item.avgRating || 0}}</text>
+          </view>
+        </view>
       </view>
     </block>
   </view>
   
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+  
   <!-- 空数据提示 -->
-  <view class="empty-container" wx:if="{{mediaList.length === 0}}">
-    <text class="empty-text">暂无媒体内容</text>
+  <view class="empty-container" wx:if="{{!loading && postList.length === 0}}">
+    <text class="empty-text">暂无内容</text>
+  </view>
+  
+  <!-- 没有更多数据 -->
+  <view class="no-more" wx:if="{{!hasMore && postList.length > 0}}">
+    <text>— 没有更多了 —</text>
   </view>
 </view>

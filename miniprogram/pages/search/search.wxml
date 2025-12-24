@@ -1,0 +1,91 @@
+<!--pages/search/search.wxml-->
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="search-box">
+    <input 
+      class="search-input"
+      placeholder="搜索内容..."
+      value="{{keyword}}"
+      bindinput="onInput"
+      bindconfirm="doSearch"
+    />
+    <button class="search-btn" bindtap="doSearch">搜索</button>
+  </view>
+  
+  <!-- 热门标签 -->
+  <view class="filter-section">
+    <view class="section-title">热门标签</view>
+    <view class="tag-list">
+      <view 
+        class="tag-item {{tag === item.tagName ? 'active' : ''}}"
+        wx:for="{{hotTags}}"
+        wx:key="tagName"
+        data-tag="{{item.tagName}}"
+        bindtap="searchByTag"
+      >
+        #{{item.tagName}}
+      </view>
+    </view>
+  </view>
+  
+  <!-- 日期筛选 -->
+  <view class="filter-section">
+    <view class="section-title">
+      <text>日期筛选</text>
+      <text class="clear-btn" bindtap="clearDates" wx:if="{{startDate || endDate}}">清除</text>
+    </view>
+    <view class="date-picker-row">
+      <picker mode="date" value="{{startDate}}" bindchange="onStartDateChange">
+        <view class="date-picker">
+          <text>{{startDate || '开始日期'}}</text>
+        </view>
+      </picker>
+      <text class="date-separator">至</text>
+      <picker mode="date" value="{{endDate}}" bindchange="onEndDateChange">
+        <view class="date-picker">
+          <text>{{endDate || '结束日期'}}</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+  
+  <!-- 搜索结果 -->
+  <view class="results-section" wx:if="{{searched}}">
+    <view class="section-title">搜索结果 ({{results.length}})</view>
+    
+    <view class="result-list" wx:if="{{results.length > 0}}">
+      <view 
+        class="result-item"
+        wx:for="{{results}}"
+        wx:key="postId"
+        data-id="{{item.postId}}"
+        bindtap="goToDetail"
+      >
+        <view class="result-header">
+          <image class="avatar" src="{{item.avatar || 'https://via.placeholder.com/60'}}" mode="aspectFill"></image>
+          <view class="user-info">
+            <text class="nickname">{{item.nickname || item.username}}</text>
+            <text class="time">{{item.createTime}}</text>
+          </view>
+        </view>
+        <text class="result-content">{{item.content}}</text>
+        <view class="result-meta">
+          <text class="media-type">{{item.mediaType === 'IMAGE' ? '🖼️' : item.mediaType === 'VIDEO' ? '🎬' : '📝'}}</text>
+          <text>👍 {{item.likeCount || 0}}</text>
+          <text>💬 {{item.commentCount || 0}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空结果 -->
+    <view class="empty" wx:else>
+      <text class="empty-icon">🔍</text>
+      <text class="empty-text">未找到相关内容</text>
+    </view>
+  </view>
+  
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>搜索中...</text>
+  </view>
+</view>

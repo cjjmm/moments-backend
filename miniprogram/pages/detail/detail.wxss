@@ -1,0 +1,275 @@
+/* pages/detail/detail.wxss */
+.container {
+  padding: 20rpx;
+  background: linear-gradient(180deg, #f0f5ff 0%, #f5f5f5 100%);
+  min-height: 100vh;
+}
+
+/* 帖子卡片 */
+.post-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  margin-right: 24rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+}
+
+.user-info {
+  flex: 1;
+}
+
+.nickname {
+  display: block;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.time {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.actions {
+  display: flex;
+  gap: 8rpx;
+}
+
+.action-btn {
+  font-size: 26rpx;
+  color: #1890ff;
+  padding: 12rpx 24rpx;
+  background: rgba(24, 144, 255, 0.1);
+  border-radius: 20rpx;
+}
+
+.action-btn.danger {
+  color: #ff4d4f;
+  background: rgba(255, 77, 79, 0.1);
+}
+
+.post-content {
+  margin-bottom: 24rpx;
+}
+
+.content-text {
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.8;
+}
+
+.media-container {
+  margin-bottom: 24rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.media-image {
+  width: 100%;
+  border-radius: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.media-video {
+  width: 100%;
+  border-radius: 12rpx;
+}
+
+.tags {
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.tag {
+  display: inline-block;
+  color: #1890ff;
+  font-size: 26rpx;
+  padding: 8rpx 20rpx;
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.1) 0%, rgba(54, 207, 201, 0.1) 100%);
+  border-radius: 20rpx;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 32rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.stat-item {
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 评分区域 */
+.rating-section {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 6rpx;
+  height: 32rpx;
+  background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
+  border-radius: 3rpx;
+  margin-right: 16rpx;
+}
+
+.rating-stars {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20rpx;
+}
+
+.star {
+  font-size: 60rpx;
+  margin: 0 16rpx;
+  opacity: 0.25;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.star.active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.rating-text {
+  display: block;
+  text-align: center;
+  font-size: 28rpx;
+  color: #1890ff;
+  font-weight: 500;
+}
+
+/* 评论区域 */
+.comment-section {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0,0,0,0.06);
+}
+
+.comment-input-box {
+  display: flex;
+  margin-bottom: 24rpx;
+  gap: 16rpx;
+}
+
+.comment-input {
+  flex: 1;
+  background: #f5f7fa;
+  border-radius: 40rpx;
+  padding: 20rpx 30rpx;
+  font-size: 28rpx;
+}
+
+.comment-btn {
+  background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
+  color: #fff;
+  font-size: 28rpx;
+  padding: 0 40rpx;
+  border-radius: 40rpx;
+  line-height: 76rpx;
+  font-weight: 500;
+  box-shadow: 0 4rpx 15rpx rgba(24, 144, 255, 0.3);
+}
+
+.comment-list {
+  margin-top: 24rpx;
+}
+
+.comment-item {
+  display: flex;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comment-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.08);
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.comment-nickname {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 10rpx;
+}
+
+.comment-text {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.comment-time {
+  display: block;
+  font-size: 24rpx;
+  color: #bbb;
+  margin-top: 10rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 60rpx;
+}
+
+.empty-text {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.loading-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  color: #999;
+  font-size: 30rpx;
+}

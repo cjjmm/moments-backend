@@ -1,0 +1,136 @@
+/* pages/my/my.wxss */
+.container {
+  padding: 0;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* 个人信息 */
+.profile-section {
+  background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
+  padding: 60rpx 40rpx 40rpx;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.8);
+  margin-right: 30rpx;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.nickname {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 8rpx;
+}
+
+.username {
+  display: block;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 统计 */
+.stats-row {
+  display: flex;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16rpx;
+  padding: 30rpx 0;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.stat-label {
+  display: block;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 8rpx;
+}
+
+/* 未登录 */
+.login-prompt {
+  text-align: center;
+  padding: 40rpx 0;
+}
+
+.avatar-placeholder {
+  font-size: 100rpx;
+  margin-bottom: 20rpx;
+}
+
+.login-text {
+  display: block;
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 30rpx;
+}
+
+.login-btn {
+  background: #fff;
+  color: #1890ff;
+  font-size: 28rpx;
+  padding: 16rpx 60rpx;
+  border-radius: 40rpx;
+}
+
+/* 菜单 */
+.menu-section {
+  background: #fff;
+  margin: 20rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.menu-arrow {
+  font-size: 36rpx;
+  color: #ccc;
+}
+
+.menu-item.logout .menu-text {
+  color: #ff4d4f;
+}

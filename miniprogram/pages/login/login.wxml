@@ -1,0 +1,49 @@
+<!--pages/login/login.wxml-->
+<view class="login-container">
+  <!-- Logo -->
+  <view class="logo-section">
+    <view class="logo">📱</view>
+    <text class="title">多媒体展示</text>
+    <text class="subtitle">登录您的账号</text>
+  </view>
+  
+  <!-- 登录表单 -->
+  <view class="form-section">
+    <view class="input-group">
+      <view class="input-icon">👤</view>
+      <input 
+        class="input" 
+        type="text" 
+        placeholder="请输入用户名" 
+        value="{{username}}"
+        bindinput="onUsernameInput"
+      />
+    </view>
+    
+    <view class="input-group">
+      <view class="input-icon">🔒</view>
+      <input 
+        class="input" 
+        type="password" 
+        placeholder="请输入密码" 
+        value="{{password}}"
+        bindinput="onPasswordInput"
+      />
+    </view>
+    
+    <button 
+      class="btn-login" 
+      bindtap="handleLogin"
+      loading="{{loading}}"
+      disabled="{{loading}}"
+    >
+      登录
+    </button>
+  </view>
+  
+  <!-- 底部链接 -->
+  <view class="footer">
+    <text class="text-gray">还没有账号？</text>
+    <text class="link" bindtap="goToRegister">立即注册</text>
+  </view>
+</view>

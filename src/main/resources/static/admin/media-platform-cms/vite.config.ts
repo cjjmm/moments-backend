@@ -10,6 +10,7 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  base: '/admin/',  // 设置基础路径
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

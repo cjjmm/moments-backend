@@ -14,15 +14,15 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-menu-item index="/admin">
+          <el-menu-item index="/dashboard">
             <el-icon><DataAnalysis /></el-icon>
             <span>统计分析</span>
           </el-menu-item>
-          <el-menu-item index="/admin/users">
+          <el-menu-item index="/dashboard/users">
             <el-icon><User /></el-icon>
             <span>用户管理</span>
           </el-menu-item>
-          <el-menu-item index="/admin/posts">
+          <el-menu-item index="/dashboard/posts">
             <el-icon><Document /></el-icon>
             <span>内容管理</span>
           </el-menu-item>
@@ -79,9 +79,9 @@ const activeMenu = computed(() => {
 
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {
-    '/admin': '统计分析',
-    '/admin/users': '用户管理',
-    '/admin/posts': '内容管理',
+    '/dashboard': '统计分析',
+    '/dashboard/users': '用户管理',
+    '/dashboard/posts': '内容管理',
   }
   return titles[route.path] || '管理后台'
 })
@@ -94,7 +94,7 @@ const handleCommand = (command: string) => {
       type: 'warning',
     }).then(() => {
       authStore.logout()
-      router.push('/admin/login')
+      router.push('/login')
     })
   }
 }

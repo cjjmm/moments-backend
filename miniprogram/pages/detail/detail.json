@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "like-button": "/components/LikeButton/LikeButton"
+  },
+  "navigationBarTitleText": "详情"
+}

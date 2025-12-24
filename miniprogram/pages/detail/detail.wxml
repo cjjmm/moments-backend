@@ -1,0 +1,128 @@
+<!--pages/detail/detail.wxml-->
+<view class="container" wx:if="{{post}}">
+  <!-- 帖子内容 -->
+  <view class="post-card">
+    <!-- 用户信息 -->
+    <view class="post-header">
+      <image class="avatar" src="{{post.avatar || 'https://via.placeholder.com/80'}}" mode="aspectFill"></image>
+      <view class="user-info">
+        <text class="nickname">{{post.nickname || post.username}}</text>
+        <text class="time">{{post.createTime}}</text>
+      </view>
+      <!-- 操作按钮 -->
+      <view class="actions" wx:if="{{isOwner}}">
+        <text class="action-btn" bindtap="editPost">编辑</text>
+        <text class="action-btn danger" bindtap="deletePost">删除</text>
+      </view>
+    </view>
+    
+    <!-- 内容 -->
+    <view class="post-content">
+      <text class="content-text">{{post.content}}</text>
+    </view>
+    
+    <!-- 媒体 -->
+    <view class="media-container" wx:if="{{post.mediaUrls && post.mediaUrls.length > 0}}">
+      <block wx:if="{{post.mediaType === 'IMAGE'}}">
+        <image 
+          wx:for="{{post.mediaUrls}}"
+          wx:key="*this"
+          class="media-image"
+          src="{{item}}"
+          mode="widthFix"
+          bindtap="previewImage"
+          data-urls="{{post.mediaUrls}}"
+          data-current="{{item}}"
+        ></image>
+      </block>
+      <block wx:elif="{{post.mediaType === 'VIDEO'}}">
+        <video 
+          class="media-video"
+          src="{{post.mediaUrls[0]}}"
+          controls
+          show-play-btn
+        ></video>
+      </block>
+    </view>
+    
+    <!-- 标签 -->
+    <view class="tags" wx:if="{{post.tags && post.tags.length > 0}}">
+      <text class="tag" wx:for="{{post.tags}}" wx:key="*this">#{{item}}</text>
+    </view>
+    
+    <!-- 统计 -->
+    <view class="stats">
+      <like-button
+        postId="{{post.postId}}"
+        initialLiked="{{isLiked}}"
+        initialCount="{{post.likeCount || 0}}"
+        bind:likechanged="onLikeChanged"
+      />
+      <view class="stat-item">
+        <text>💬 {{post.commentCount || 0}} 评论</text>
+      </view>
+      <view class="stat-item">
+        <text>⭐ {{post.avgRating || 0}} 评分</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 评分区域 -->
+  <view class="rating-section">
+    <view class="section-title">给这个内容评分</view>
+    <view class="rating-stars">
+      <view 
+        class="star {{myRating >= index + 1 ? 'active' : ''}}"
+        wx:for="{{[1,2,3,4,5]}}"
+        wx:key="*this"
+        data-score="{{index + 1}}"
+        bindtap="onRating"
+      >
+        ⭐
+      </view>
+    </view>
+    <text class="rating-text" wx:if="{{myRating > 0}}">您的评分: {{myRating}}分</text>
+  </view>
+  
+  <!-- 评论区域 -->
+  <view class="comment-section">
+    <view class="section-title">评论 ({{comments.length}})</view>
+    
+    <!-- 评论输入 -->
+    <view class="comment-input-box">
+      <input 
+        class="comment-input"
+        placeholder="写下你的评论..."
+        value="{{commentInput}}"
+        bindinput="onCommentInput"
+      />
+      <button 
+        class="comment-btn"
+        bindtap="submitComment"
+        loading="{{submitting}}"
+        disabled="{{submitting}}"
+      >发送</button>
+    </view>
+    
+    <!-- 评论列表 -->
+    <view class="comment-list">
+      <view class="comment-item" wx:for="{{comments}}" wx:key="commentId">
+        <image class="comment-avatar" src="{{item.avatar || 'https://via.placeholder.com/60'}}" mode="aspectFill"></image>
+        <view class="comment-content">
+          <text class="comment-nickname">{{item.nickname || item.username}}</text>
+          <text class="comment-text">{{item.content}}</text>
+          <text class="comment-time">{{item.createTime}}</text>
+        </view>
+      </view>
+      
+      <view class="empty" wx:if="{{comments.length === 0}}">
+        <text class="empty-text">暂无评论，快来抢沙发~</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 加载中 -->
+<view class="loading-page" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

@@ -20,9 +20,14 @@ public class WebConfig implements WebMvcConfigurer {
    */
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    // 确保路径末尾有斜杠
+    String location = uploadDir;
+    if (!location.endsWith("/") && !location.endsWith("\\")) {
+      location = location + "/";
+    }
     // 将 /uploads/** 映射到实际的文件上传目录
     registry.addResourceHandler("/uploads/**")
-        .addResourceLocations("file:" + uploadDir);
+        .addResourceLocations("file:" + location);
   }
 
   /**

@@ -1,0 +1,186 @@
+<!--pages/publish/publish.wxml-->
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <view class="header-bg-decoration"></view>
+    <view class="header-content">
+      <text class="header-title">{{isEdit ? '编辑动态' : '发布动态'}}</text>
+      <text class="header-subtitle">分享你的精彩瞬间</text>
+    </view>
+    <view class="header-icon">✨</view>
+  </view>
+
+  <!-- 媒体类型选择 -->
+  <view class="type-selector">
+    <view class="selector-label">选择类型</view>
+    <view class="type-options">
+      <view 
+        class="type-item {{mediaType === 'TEXT' ? 'active' : ''}}"
+        data-type="TEXT"
+        bindtap="switchMediaType"
+      >
+        <view class="type-icon-wrapper">
+          <text class="type-icon">📝</text>
+        </view>
+        <text class="type-text">文字</text>
+        <view class="type-indicator" wx:if="{{mediaType === 'TEXT'}}"></view>
+      </view>
+      <view 
+        class="type-item {{mediaType === 'IMAGE' ? 'active' : ''}}"
+        data-type="IMAGE"
+        bindtap="switchMediaType"
+      >
+        <view class="type-icon-wrapper">
+          <text class="type-icon">🖼️</text>
+        </view>
+        <text class="type-text">图片</text>
+        <view class="type-indicator" wx:if="{{mediaType === 'IMAGE'}}"></view>
+      </view>
+      <view 
+        class="type-item {{mediaType === 'VIDEO' ? 'active' : ''}}"
+        data-type="VIDEO"
+        bindtap="switchMediaType"
+      >
+        <view class="type-icon-wrapper">
+          <text class="type-icon">🎬</text>
+        </view>
+        <text class="type-text">视频</text>
+        <view class="type-indicator" wx:if="{{mediaType === 'VIDEO'}}"></view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 内容输入 -->
+  <view class="content-section">
+    <view class="section-header">
+      <text class="section-icon">💭</text>
+      <text class="section-title-text">说点什么</text>
+    </view>
+    <view class="content-input-wrapper">
+      <textarea 
+        class="content-input"
+        placeholder="分享你的想法、故事或心情..."
+        placeholder-class="input-placeholder"
+        value="{{content}}"
+        bindinput="onContentInput"
+        maxlength="500"
+        auto-height
+      ></textarea>
+    </view>
+    <view class="content-footer">
+      <text class="word-count {{content.length > 450 ? 'warning' : ''}}">{{content.length}}/500</text>
+    </view>
+  </view>
+  
+  <!-- 图片选择 -->
+  <view class="media-section" wx:if="{{mediaType === 'IMAGE'}}">
+    <view class="section-header">
+      <text class="section-icon">🖼️</text>
+      <text class="section-title-text">添加图片</text>
+      <text class="section-hint">最多9张</text>
+    </view>
+    <view class="image-grid">
+      <!-- 已选图片 -->
+      <view class="image-item" wx:for="{{localFiles}}" wx:key="*this">
+        <image class="preview-image" src="{{item}}" mode="aspectFill"></image>
+        <view class="remove-btn" data-index="{{index}}" bindtap="removeFile">
+          <text>×</text>
+        </view>
+        <view class="image-index">{{index + 1}}</view>
+      </view>
+      <!-- 添加按钮 -->
+      <view class="add-btn" bindtap="chooseImage" wx:if="{{localFiles.length < 9}}">
+        <view class="add-icon-wrapper">
+          <text class="add-icon">+</text>
+        </view>
+        <text class="add-text">添加图片</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 视频选择 -->
+  <view class="media-section" wx:if="{{mediaType === 'VIDEO'}}">
+    <view class="section-header">
+      <text class="section-icon">🎬</text>
+      <text class="section-title-text">添加视频</text>
+      <text class="section-hint">最多1个</text>
+    </view>
+    <view class="video-container" wx:if="{{localFiles.length > 0}}">
+      <video 
+        class="preview-video" 
+        src="{{localFiles[0]}}" 
+        controls="{{true}}"
+        object-fit="contain"
+        show-center-play-btn="{{true}}"
+        enable-progress-gesture="{{true}}"
+        style="width: 100%; height: 400rpx;"
+      ></video>
+      <view class="remove-btn video-remove" data-index="0" bindtap="removeFile">
+        <text>×</text>
+      </view>
+    </view>
+    <view class="add-video" bindtap="chooseVideo" wx:else>
+      <view class="add-video-content">
+        <view class="video-icon-wrapper">
+          <text class="add-icon">🎥</text>
+        </view>
+        <text class="add-text">点击选择视频</text>
+        <text class="add-hint">支持 mp4、mov 格式</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 标签 -->
+  <view class="tag-section">
+    <view class="section-header">
+      <text class="section-icon">🏷️</text>
+      <text class="section-title-text">添加标签</text>
+      <text class="section-hint">让更多人发现</text>
+    </view>
+    <view class="tag-input-box">
+      <view class="tag-input-wrapper">
+        <text class="tag-prefix">#</text>
+        <input 
+          class="tag-input"
+          placeholder="输入标签"
+          placeholder-class="input-placeholder"
+          value="{{tagInput}}"
+          bindinput="onTagInput"
+          bindconfirm="addTag"
+        />
+      </view>
+      <button class="tag-add-btn" bindtap="addTag">
+        <text>添加</text>
+      </button>
+    </view>
+    <view class="tag-list" wx:if="{{tags.length > 0}}">
+      <view class="tag-item" wx:for="{{tags}}" wx:key="*this">
+        <text class="tag-text">#{{item}}</text>
+        <view class="tag-remove" data-index="{{index}}" bindtap="removeTag">×</view>
+      </view>
+    </view>
+    <view class="tag-suggestions" wx:if="{{tags.length === 0}}">
+      <text class="suggestions-label">热门标签：</text>
+      <view class="suggestion-tags">
+        <text class="suggestion-tag" bindtap="quickAddTag" data-tag="生活">生活</text>
+        <text class="suggestion-tag" bindtap="quickAddTag" data-tag="美食">美食</text>
+        <text class="suggestion-tag" bindtap="quickAddTag" data-tag="旅行">旅行</text>
+        <text class="suggestion-tag" bindtap="quickAddTag" data-tag="日常">日常</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 发布按钮 -->
+  <view class="submit-section">
+    <button 
+      class="submit-btn {{content.length > 0 ? 'ready' : ''}}"
+      bindtap="handleSubmit"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+    >
+      <text class="submit-icon" wx:if="{{!submitting}}">🚀</text>
+      <text class="submit-text">{{isEdit ? '保存修改' : '发布动态'}}</text>
+    </button>
+    <text class="submit-hint">发布后即可在首页查看</text>
+  </view>
+</view>

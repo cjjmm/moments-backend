@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "多媒体展示",
+  "usingComponents": {},
   "enablePullDownRefresh": true,
-  "backgroundTextStyle": "light"
+  "backgroundTextStyle": "dark"
 }

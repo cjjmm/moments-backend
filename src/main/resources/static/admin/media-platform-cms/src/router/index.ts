@@ -6,16 +6,20 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/admin/login',
+      redirect: '/login',
     },
     {
-      path: '/admin/login',
+      path: '/index.html',
+      redirect: '/login',
+    },
+    {
+      path: '/login',
       name: 'AdminLogin',
       component: () => import('@/views/admin/Login.vue'),
       meta: { requiresAuth: false },
     },
     {
-      path: '/admin',
+      path: '/dashboard',
       component: () => import('@/views/admin/Layout.vue'),
       meta: { requiresAuth: true },
       children: [
@@ -51,17 +55,17 @@ router.beforeEach((to, from, next) => {
         next()
       } else {
         // 不是管理员,跳转到登录页
-        next('/admin/login')
+        next('/login')
       }
     } else {
       // 未登录,跳转到登录页
-      next('/admin/login')
+      next('/login')
     }
   } else {
     // 不需要认证的路由
-    if (to.path === '/admin/login' && authStore.isAuthenticated() && authStore.isAdmin()) {
+    if (to.path === '/login' && authStore.isAuthenticated() && authStore.isAdmin()) {
       // 已登录的管理员访问登录页,跳转到管理后台
-      next('/admin')
+      next('/dashboard')
     } else {
       next()
     }

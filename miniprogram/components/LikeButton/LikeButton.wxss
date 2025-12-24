@@ -1,0 +1,27 @@
+/* components/LikeButton/LikeButton.wxss */
+.like-button {
+  display: flex;
+  align-items: center;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  background-color: #f5f5f5;
+}
+
+.like-button:active {
+  background-color: #e0e0e0;
+}
+
+.icon {
+  font-size: 32rpx;
+  margin-right: 8rpx;
+  transition: color 0.3s;
+}
+
+.icon.liked {
+  color: #e74c3c;
+}
+
+.count {
+  font-size: 28rpx;
+  color: #666;
+}

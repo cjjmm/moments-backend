@@ -1,0 +1,169 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 顶部装饰区域 -->
+  <view class="header-section">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <view class="welcome-text">
+        <text class="welcome-title">发现精彩</text>
+        <text class="welcome-subtitle">探索多媒体世界</text>
+      </view>
+      <view class="header-decoration">
+        <text class="decoration-emoji">✨</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 搜索入口 -->
+  <view class="search-wrapper">
+    <view class="search-entry" bindtap="goToSearch">
+      <view class="search-icon-wrapper">
+        <text class="search-icon">🔍</text>
+      </view>
+      <text class="search-placeholder">搜索内容、用户、标签...</text>
+      <view class="search-btn">
+        <text>搜索</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 热门标签 -->
+  <scroll-view class="tag-scroll" scroll-x wx:if="{{hotTags.length > 0}}">
+    <view class="tag-list">
+      <view 
+        class="tag-item {{currentTag === '' ? 'active' : ''}}"
+        data-tag=""
+        bindtap="selectTag"
+      >
+        <text class="tag-icon">🌟</text>
+        <text>全部</text>
+      </view>
+      <view 
+        class="tag-item {{currentTag === item.tagName ? 'active' : ''}}"
+        wx:for="{{hotTags}}"
+        wx:key="tagName"
+        data-tag="{{item.tagName}}"
+        bindtap="selectTag"
+      >
+        <text class="tag-icon">{{index % 5 === 0 ? '🔥' : (index % 5 === 1 ? '💫' : (index % 5 === 2 ? '🎯' : (index % 5 === 3 ? '🌈' : '⚡')))}}</text>
+        <text>#{{item.tagName}}</text>
+      </view>
+    </view>
+  </scroll-view>
+  
+  <!-- 帖子列表 -->
+  <view class="post-list">
+    <view 
+      class="post-card"
+      wx:for="{{posts}}"
+      wx:key="postId"
+      data-id="{{item.postId}}"
+      bindtap="goToDetail"
+    >
+      <!-- 用户信息 -->
+      <view class="post-header">
+        <view class="avatar-wrapper">
+          <image class="avatar" src="{{item.avatar || 'https://via.placeholder.com/80'}}" mode="aspectFill"></image>
+          <view class="avatar-ring"></view>
+        </view>
+        <view class="user-info">
+          <text class="nickname">{{item.nickname || item.username}}</text>
+          <text class="time">{{item.createTime}}</text>
+        </view>
+        <view class="more-btn">
+          <text>···</text>
+        </view>
+      </view>
+      
+      <!-- 内容 -->
+      <view class="post-content">{{item.content}}</view>
+      
+      <!-- 媒体内容 -->
+      <view class="post-media" wx:if="{{item.mediaUrls && item.mediaUrls.length > 0}}">
+        <!-- 图片展示 -->
+        <block wx:if="{{item.mediaType === 'IMAGE'}}">
+          <view class="image-grid image-count-{{item.mediaUrls.length > 4 ? 'many' : item.mediaUrls.length}}">
+            <image 
+              wx:for="{{item.mediaUrls}}" 
+              wx:for-item="url"
+              wx:for-index="idx"
+              wx:key="idx"
+              class="media-image"
+              src="{{url}}" 
+              mode="aspectFill"
+              data-current="{{url}}"
+              data-urls="{{item.mediaUrls}}"
+              catchtap="previewImage"
+            ></image>
+          </view>
+        </block>
+        
+        <!-- 视频展示 -->
+        <block wx:elif="{{item.mediaType === 'VIDEO'}}">
+          <view class="video-wrapper">
+            <video 
+              class="media-video"
+              src="{{item.mediaUrls[0]}}" 
+              controls
+              show-center-play-btn
+              object-fit="contain"
+            ></video>
+          </view>
+        </block>
+      </view>
+      
+      <!-- 标签 -->
+      <view class="post-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+        <text class="tag" wx:for="{{item.tags}}" wx:key="*this">#{{item}}</text>
+      </view>
+      
+      <!-- 互动数据 -->
+      <view class="post-footer">
+        <view class="stat-item">
+          <text class="stat-icon">👍</text>
+          <text class="stat-value">{{item.likeCount || 0}}</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-icon">💬</text>
+          <text class="stat-value">{{item.commentCount || 0}}</text>
+        </view>
+        <view class="stat-item" wx:if="{{item.avgRating}}">
+          <text class="stat-icon">⭐</text>
+          <text class="stat-value">{{item.avgRating}}</text>
+        </view>
+        <view class="stat-item share-btn">
+          <text class="stat-icon">📤</text>
+          <text class="stat-value">分享</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加载状态 -->
+  <view class="loading-more" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 没有更多 -->
+  <view class="no-more" wx:if="{{!hasMore && posts.length > 0}}">
+    <view class="no-more-line"></view>
+    <text>已经到底啦</text>
+    <view class="no-more-line"></view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && posts.length === 0}}">
+    <view class="empty-illustration">
+      <text class="empty-icon-bg">📭</text>
+      <view class="empty-sparkle sparkle-1">✨</view>
+      <view class="empty-sparkle sparkle-2">💫</view>
+      <view class="empty-sparkle sparkle-3">⭐</view>
+    </view>
+    <text class="empty-title">暂无内容</text>
+    <text class="empty-hint">快去发布第一条动态吧~</text>
+    <view class="empty-action" bindtap="goToPublish">
+      <text>去发布</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,7 @@
+<!-- components/LikeButton/LikeButton.wxml -->
+<view class="like-button" bindtap="toggleLike">
+  <text class="icon {{isLiked ? 'liked' : ''}}">
+    {{isLiked ? '♥' : '♡'}}
+  </text>
+  <text class="count">{{likeCount}}</text>
+</view>

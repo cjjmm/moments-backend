@@ -79,7 +79,15 @@ public class UserServiceImpl implements UserService {
     }
 
     // 验证密码
-    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+    System.out.println("=== DEBUG: Input password: " + request.getPassword());
+    System.out.println("=== DEBUG: Stored hash: " + user.getPassword());
+    boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
+    System.out.println("=== DEBUG: Password matches: " + matches);
+
+    if (!matches) {
+      // 生成一个正确的哈希供参考
+      String correctHash = passwordEncoder.encode(request.getPassword());
+      System.out.println("=== DEBUG: Correct hash for input password: " + correctHash);
       throw new BusinessException(401, "用户名或密码错误");
     }
 
@@ -98,6 +106,7 @@ public class UserServiceImpl implements UserService {
     result.put("nickname", user.getNickname());
     result.put("avatar", user.getAvatar());
     result.put("token", token);
+    result.put("role", user.getRole());
 
     return result;
   }

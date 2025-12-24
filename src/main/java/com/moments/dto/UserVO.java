@@ -36,6 +36,16 @@ public class UserVO {
   private LocalDateTime createTime;
 
   /**
+   * 角色：USER-普通用户, ADMIN-管理员
+   */
+  private String role;
+
+  /**
+   * 状态：0-禁用，1-正常
+   */
+  private Integer status;
+
+  /**
    * 发帖数量
    */
   private Integer postCount;
