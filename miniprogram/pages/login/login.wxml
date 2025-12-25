@@ -24,7 +24,8 @@
       <view class="input-icon">🔒</view>
       <input 
         class="input" 
-        type="password" 
+        type="text" 
+        password="{{true}}"
         placeholder="请输入密码" 
         value="{{password}}"
         bindinput="onPasswordInput"

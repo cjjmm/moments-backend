@@ -42,4 +42,9 @@ public interface UserService {
    * 删除用户（管理员）
    */
   void deleteUser(Long userId);
+
+  /**
+   * 更新用户资料（头像、邮箱）
+   */
+  void updateProfile(Long userId, String avatar, String email);
 }

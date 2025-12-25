@@ -56,7 +56,8 @@ public class LikeServiceImpl implements LikeService {
     // 查找点赞记录
     LambdaQueryWrapper<Like> wrapper = new LambdaQueryWrapper<>();
     wrapper.eq(Like::getPostId, postId)
-        .eq(Like::getUserId, userId);
+        .eq(Like::getUserId, userId)
+        .last("LIMIT 1");
 
     Like like = likeMapper.selectOne(wrapper);
     if (like != null) {
@@ -80,7 +81,8 @@ public class LikeServiceImpl implements LikeService {
   public Like getLike(Long postId, Long userId) {
     LambdaQueryWrapper<Like> wrapper = new LambdaQueryWrapper<>();
     wrapper.eq(Like::getPostId, postId)
-        .eq(Like::getUserId, userId);
+        .eq(Like::getUserId, userId)
+        .last("LIMIT 1");
     return likeMapper.selectOne(wrapper);
   }
 }

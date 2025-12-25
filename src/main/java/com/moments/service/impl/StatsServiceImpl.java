@@ -56,10 +56,12 @@ public class StatsServiceImpl implements StatsService {
     // 活跃用户（有发帖的用户）
     LambdaQueryWrapper<Post> postWrapper = new LambdaQueryWrapper<>();
     postWrapper.eq(Post::getStatus, 1)
-        .ge(Post::getCreateTime, weekStart)
-        .select(Post::getUserId)
-        .groupBy(Post::getUserId);
-    Long activeUsers = postMapper.selectCount(postWrapper);
+        .ge(Post::getCreateTime, weekStart);
+    List<Post> weekPosts = postMapper.selectList(postWrapper);
+    long activeUsers = weekPosts.stream()
+        .map(Post::getUserId)
+        .distinct()
+        .count();
     result.put("activeUsers", activeUsers);
 
     return result;

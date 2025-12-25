@@ -4,7 +4,8 @@
   <view class="profile-section">
     <block wx:if="{{isLoggedIn}}">
       <view class="profile-card">
-        <image class="avatar" src="{{userInfo.avatar || 'https://via.placeholder.com/120'}}" mode="aspectFill"></image>
+        <image wx:if="{{userInfo.avatar}}" class="avatar" src="{{userInfo.avatar}}" mode="aspectFill"></image>
+        <view wx:else class="avatar avatar-placeholder-circle">👤</view>
         <view class="user-info">
           <text class="nickname">{{userInfo.nickname || userInfo.username}}</text>
           <text class="username">@{{userInfo.username}}</text>
@@ -41,6 +42,12 @@
     <view class="menu-item" bindtap="goToMyPosts">
       <text class="menu-icon">📝</text>
       <text class="menu-text">我的发布</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    
+    <view class="menu-item" bindtap="goToFriends">
+      <text class="menu-icon">👥</text>
+      <text class="menu-text">好友</text>
       <text class="menu-arrow">›</text>
     </view>
     

@@ -1,5 +1,49 @@
 <!--pages/settings/settings.wxml-->
 <view class="container">
+  <!-- 头像区域 -->
+  <view class="section">
+    <view class="section-title">个人资料</view>
+    
+    <view class="avatar-section">
+      <view class="avatar-wrapper" bindtap="chooseAvatar">
+        <image 
+          wx:if="{{avatar}}"
+          class="avatar" 
+          src="{{avatar}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="avatar-placeholder">
+          <text class="avatar-icon">👤</text>
+        </view>
+        <view class="avatar-overlay">
+          <text class="avatar-text">更换头像</text>
+        </view>
+      </view>
+      <view class="avatar-tip">点击头像更换</view>
+    </view>
+
+    <view class="form-group">
+      <view class="input-label">邮箱地址</view>
+      <input 
+        class="form-input"
+        type="text"
+        placeholder="请输入邮箱地址"
+        value="{{email}}"
+        bindinput="onEmailInput"
+      />
+    </view>
+
+    <button 
+      class="submit-btn"
+      bindtap="saveProfile"
+      loading="{{savingProfile}}"
+      disabled="{{savingProfile}}"
+    >
+      保存资料
+    </button>
+  </view>
+  
+  <!-- 密码修改区域 -->
   <view class="section">
     <view class="section-title">修改密码</view>
     
@@ -7,7 +51,8 @@
       <view class="input-label">当前密码</view>
       <input 
         class="form-input"
-        type="password"
+        type="text"
+        password="{{true}}"
         placeholder="请输入当前密码"
         value="{{oldPassword}}"
         bindinput="onOldPasswordInput"
@@ -18,7 +63,8 @@
       <view class="input-label">新密码</view>
       <input 
         class="form-input"
-        type="password"
+        type="text"
+        password="{{true}}"
         placeholder="请输入新密码（至少6位）"
         value="{{newPassword}}"
         bindinput="onNewPasswordInput"
@@ -29,7 +75,8 @@
       <view class="input-label">确认新密码</view>
       <input 
         class="form-input"
-        type="password"
+        type="text"
+        password="{{true}}"
         placeholder="请再次输入新密码"
         value="{{confirmPassword}}"
         bindinput="onConfirmPasswordInput"
@@ -37,12 +84,12 @@
     </view>
     
     <button 
-      class="submit-btn"
+      class="submit-btn secondary"
       bindtap="handleChangePassword"
       loading="{{submitting}}"
       disabled="{{submitting}}"
     >
-      确认修改
+      确认修改密码
     </button>
   </view>
   

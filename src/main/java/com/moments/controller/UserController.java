@@ -72,4 +72,23 @@ public class UserController {
     userService.updatePassword(userId, oldPassword, newPassword);
     return Result.success("密码修改成功");
   }
+
+  /**
+   * 更新用户资料（头像、邮箱）
+   */
+  @PutMapping("/profile")
+  public Result<?> updateProfile(@RequestBody Map<String, String> request, HttpServletRequest httpRequest) {
+    // 从Token中获取用户ID
+    String token = httpRequest.getHeader("Authorization");
+    if (token != null && token.startsWith("Bearer ")) {
+      token = token.substring(7);
+    }
+    Long userId = jwtUtil.getUserIdFromToken(token);
+
+    String avatar = request.get("avatar");
+    String email = request.get("email");
+
+    userService.updateProfile(userId, avatar, email);
+    return Result.success("资料更新成功");
+  }
 }

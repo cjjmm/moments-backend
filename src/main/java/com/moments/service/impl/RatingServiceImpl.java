@@ -42,7 +42,8 @@ public class RatingServiceImpl implements RatingService {
     // 查找是否已评分
     LambdaQueryWrapper<Rating> wrapper = new LambdaQueryWrapper<>();
     wrapper.eq(Rating::getPostId, request.getPostId())
-        .eq(Rating::getUserId, userId);
+        .eq(Rating::getUserId, userId)
+        .last("LIMIT 1");
     Rating existingRating = ratingMapper.selectOne(wrapper);
 
     Rating rating;
@@ -86,7 +87,8 @@ public class RatingServiceImpl implements RatingService {
     // 查找用户评分
     LambdaQueryWrapper<Rating> wrapper = new LambdaQueryWrapper<>();
     wrapper.eq(Rating::getPostId, postId)
-        .eq(Rating::getUserId, userId);
+        .eq(Rating::getUserId, userId)
+        .last("LIMIT 1");
     Rating rating = ratingMapper.selectOne(wrapper);
 
     Map<String, Object> result = new HashMap<>();

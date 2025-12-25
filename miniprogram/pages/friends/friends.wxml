@@ -1,0 +1,98 @@
+<!--pages/friends/friends.wxml-->
+<view class="container">
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'list' ? 'active' : ''}}" bindtap="switchTab" data-tab="list">
+      好友列表
+    </view>
+    <view class="tab-item {{activeTab === 'add' ? 'active' : ''}}" bindtap="switchTab" data-tab="add">
+      添加好友
+    </view>
+    <view class="tab-item {{activeTab === 'requests' ? 'active' : ''}}" bindtap="switchTab" data-tab="requests">
+      好友申请
+      <view wx:if="{{pendingCount > 0}}" class="badge">{{pendingCount}}</view>
+    </view>
+  </view>
+
+  <!-- 好友列表 -->
+  <view class="tab-content" wx:if="{{activeTab === 'list'}}">
+    <view wx:if="{{friendList.length === 0}}" class="empty-state">
+      <text class="empty-icon">👥</text>
+      <text class="empty-text">暂无好友</text>
+      <text class="empty-hint">去添加一些好友吧</text>
+    </view>
+    
+    <view class="friend-list" wx:else>
+      <view class="friend-item" wx:for="{{friendList}}" wx:key="friend_id">
+        <image wx:if="{{item.avatar}}" class="avatar" src="{{item.avatar}}" mode="aspectFill"/>
+        <view wx:else class="avatar avatar-placeholder">👤</view>
+        <view class="friend-info">
+          <text class="nickname">{{item.nickname || item.username}}</text>
+          <text class="username">@{{item.username}}</text>
+        </view>
+        <view class="friend-actions">
+          <button class="btn-delete" bindtap="deleteFriend" data-id="{{item.friend_id}}">删除</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加好友 -->
+  <view class="tab-content" wx:if="{{activeTab === 'add'}}">
+    <view class="search-box">
+      <input 
+        class="search-input" 
+        placeholder="输入用户名或昵称搜索" 
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="searchUsers"
+      />
+      <button class="btn-search" bindtap="searchUsers">搜索</button>
+    </view>
+
+    <view wx:if="{{searchResults.length === 0 && hasSearched}}" class="empty-state">
+      <text class="empty-icon">🔍</text>
+      <text class="empty-text">未找到用户</text>
+    </view>
+
+    <view class="search-results" wx:if="{{searchResults.length > 0}}">
+      <view class="user-item" wx:for="{{searchResults}}" wx:key="userId">
+        <image wx:if="{{item.avatar}}" class="avatar" src="{{item.avatar}}" mode="aspectFill"/>
+        <view wx:else class="avatar avatar-placeholder">👤</view>
+        <view class="user-info">
+          <text class="nickname">{{item.nickname || item.username}}</text>
+          <text class="username">@{{item.username}}</text>
+        </view>
+        <view class="user-actions">
+          <button wx:if="{{item.isFriend}}" class="btn-status" disabled>已是好友</button>
+          <button wx:elif="{{item.hasPendingRequest}}" class="btn-status" disabled>已申请</button>
+          <button wx:else class="btn-add" bindtap="sendRequest" data-user="{{item}}">添加</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 好友申请 -->
+  <view class="tab-content" wx:if="{{activeTab === 'requests'}}">
+    <view wx:if="{{requestList.length === 0}}" class="empty-state">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无好友申请</text>
+    </view>
+
+    <view class="request-list" wx:else>
+      <view class="request-item" wx:for="{{requestList}}" wx:key="request_id">
+        <image wx:if="{{item.avatar}}" class="avatar" src="{{item.avatar}}" mode="aspectFill"/>
+        <view wx:else class="avatar avatar-placeholder">👤</view>
+        <view class="request-info">
+          <text class="nickname">{{item.nickname || item.username}}</text>
+          <text class="message" wx:if="{{item.message}}">{{item.message}}</text>
+          <text class="message" wx:else>请求添加您为好友</text>
+        </view>
+        <view class="request-actions">
+          <button class="btn-accept" bindtap="acceptRequest" data-id="{{item.request_id}}">同意</button>
+          <button class="btn-reject" bindtap="rejectRequest" data-id="{{item.request_id}}">拒绝</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

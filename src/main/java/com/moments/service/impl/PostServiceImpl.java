@@ -261,7 +261,7 @@ public class PostServiceImpl implements PostService {
    */
   private Tag findOrCreateTag(String tagName) {
     LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
-    wrapper.eq(Tag::getTagName, tagName);
+    wrapper.eq(Tag::getTagName, tagName).last("LIMIT 1");
     Tag tag = tagMapper.selectOne(wrapper);
 
     if (tag == null) {
@@ -279,7 +279,7 @@ public class PostServiceImpl implements PostService {
    */
   private List<Long> getPostIdsByTagName(String tagName) {
     LambdaQueryWrapper<Tag> tagWrapper = new LambdaQueryWrapper<>();
-    tagWrapper.eq(Tag::getTagName, tagName);
+    tagWrapper.eq(Tag::getTagName, tagName).last("LIMIT 1");
     Tag tag = tagMapper.selectOne(tagWrapper);
 
     if (tag == null) {

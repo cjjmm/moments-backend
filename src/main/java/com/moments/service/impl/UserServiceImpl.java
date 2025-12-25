@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
   public Map<String, Object> register(RegisterRequest request) {
     // 检查用户名是否已存在
     LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-    wrapper.eq(User::getUsername, request.getUsername());
+    wrapper.eq(User::getUsername, request.getUsername()).last("LIMIT 1");
     User existUser = userMapper.selectOne(wrapper);
 
     if (existUser != null) {
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
   public Map<String, Object> login(LoginRequest request) {
     // 查询用户
     LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-    wrapper.eq(User::getUsername, request.getUsername());
+    wrapper.eq(User::getUsername, request.getUsername()).last("LIMIT 1");
     User user = userMapper.selectOne(wrapper);
 
     if (user == null) {
@@ -159,6 +159,26 @@ public class UserServiceImpl implements UserService {
 
     // 逻辑删除：将状态设为0（禁用）
     user.setStatus(0);
+    userMapper.updateById(user);
+  }
+
+  @Override
+  public void updateProfile(Long userId, String avatar, String email) {
+    User user = userMapper.selectById(userId);
+    if (user == null) {
+      throw new BusinessException(404, "用户不存在");
+    }
+
+    // 更新头像（如果提供）
+    if (avatar != null && !avatar.isEmpty()) {
+      user.setAvatar(avatar);
+    }
+
+    // 更新邮箱（如果提供）
+    if (email != null) {
+      user.setEmail(email);
+    }
+
     userMapper.updateById(user);
   }
 }

@@ -20,6 +20,12 @@ Page({
   // 检查登录状态
   checkLoginStatus() {
     const isLoggedIn = app.globalData.isLoggedIn;
+
+    // 从本地存储获取最新的用户信息
+    const storedUserInfo = wx.getStorageSync('userInfo');
+    if (storedUserInfo) {
+      app.globalData.userInfo = storedUserInfo;
+    }
     const userInfo = app.globalData.userInfo;
 
     this.setData({ isLoggedIn, userInfo });
@@ -63,6 +69,14 @@ Page({
     if (!app.checkLogin()) return;
     wx.navigateTo({
       url: '/pages/settings/settings'
+    });
+  },
+
+  // 跳转好友
+  goToFriends() {
+    if (!app.checkLogin()) return;
+    wx.navigateTo({
+      url: '/pages/friends/friends'
     });
   },
 

@@ -91,12 +91,33 @@
     "username": "user123",
     "nickname": "昵称",
     "avatar": "头像URL",
+    "email": "邮箱地址",
     "createTime": "2025-12-15T10:00:00"
   }
 }
 ```
 
-### 1.5 获取所有用户（管理员）
+### 1.5 更新用户资料
+- **接口**: `PUT /users/profile`
+- **描述**: 用户更新个人资料（头像、邮箱）
+- **请求头**: `Authorization: Bearer {token}`
+- **请求体**:
+```json
+{
+  "avatar": "头像URL (可选)",
+  "email": "邮箱地址 (可选)"
+}
+```
+- **响应**:
+```json
+{
+  "code": 200,
+  "message": "资料更新成功",
+  "data": null
+}
+```
+
+### 1.6 获取所有用户（管理员）
 - **接口**: `GET /admin/users`
 - **描述**: 管理员获取所有用户列表
 - **请求头**: `Authorization: Bearer {admin-token}`
@@ -123,7 +144,7 @@
 }
 ```
 
-### 1.6 删除用户（管理员）
+### 1.7 删除用户（管理员）
 - **接口**: `DELETE /admin/users/{userId}`
 - **描述**: 管理员删除用户
 - **请求头**: `Authorization: Bearer {admin-token}`
